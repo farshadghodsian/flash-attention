@@ -24,15 +24,16 @@ std::vector<torch::Tensor> mha_fwd(
   auto dprops = at::cuda::getCurrentDeviceProperties();
   bool is_gfx90x = dprops->major == 9 && dprops->minor == 0;
   bool is_gfx94x = dprops->major == 9 && dprops->minor == 4;
-  TORCH_CHECK(is_gfx90x || is_gfx94x,
-              "FlashAttention only supports AMD MI200 GPUs or newer.");
+  bool is_gfx110x = dprops->major == 11 && dprops->minor == 0;
+  TORCH_CHECK(is_gfx90x || is_gfx94x || is_gfx110x,
+              "FlashAttention only supports Radeon 7000 series or AMD MI200 GPUs or newer.");
 
   auto q_dtype = q.dtype();
   TORCH_CHECK(q_dtype == torch::kFloat16 || q_dtype == torch::kBFloat16,
               "FlashAttention only support fp16 and bf16 data type");
   if (q_dtype == torch::kBFloat16) {
-    TORCH_CHECK(is_gfx90x || is_gfx94x,
-                "bfloat16 is only supported on AMD MI200 GPUs or newer");
+    TORCH_CHECK(is_gfx90x || is_gfx94x|| is_gfx110x,
+                "bfloat16 is only supported on Radeon 7000 series or AMD MI200 GPUs or newer");
   }
   TORCH_CHECK(k.dtype() == q_dtype, "query and key must have the same dtype");
   TORCH_CHECK(v.dtype() == q_dtype, "query and value must have the same dtype");
@@ -184,15 +185,16 @@ std::vector<torch::Tensor> mha_varlen_fwd(
   auto dprops = at::cuda::getCurrentDeviceProperties();
   bool is_gfx90x = dprops->major == 9 && dprops->minor == 0;
   bool is_gfx94x = dprops->major == 9 && dprops->minor == 4;
-  TORCH_CHECK(is_gfx90x || is_gfx94x,
-              "FlashAttention only supports AMD MI200 GPUs or newer.");
+  bool is_gfx110x = dprops->major == 11 && dprops->minor == 0;
+  TORCH_CHECK(is_gfx90x || is_gfx94x || is_gfx110x,
+              "FlashAttention only supports Radeon 7000 series or AMD MI200 GPUs or newer.");
 
   auto q_dtype = q.dtype();
   TORCH_CHECK(q_dtype == torch::kFloat16 || q_dtype == torch::kBFloat16,
               "FlashAttention only support fp16 and bf16 data type");
   if (q_dtype == torch::kBFloat16) {
-    TORCH_CHECK(is_gfx90x || is_gfx94x,
-                "bfloat16 is only supported on AMD MI200 GPUs or newer");
+    TORCH_CHECK(is_gfx90x || is_gfx94x || is_gfx110x,
+                "bfloat16 is only supported on Radeon 7000 series or AMD MI200 GPUs or newer");
   }
   TORCH_CHECK(k.dtype() == q_dtype, "query and key must have the same dtype");
   TORCH_CHECK(v.dtype() == q_dtype, "query and value must have the same dtype");
@@ -372,15 +374,15 @@ std::vector<torch::Tensor> mha_bwd(
   auto dprops = at::cuda::getCurrentDeviceProperties();
   bool is_gfx90x = dprops->major == 9 && dprops->minor == 0;
   bool is_gfx94x = dprops->major == 9 && dprops->minor == 4;
-  TORCH_CHECK(is_gfx90x || is_gfx94x,
-              "FlashAttention only supports AMD MI200 GPUs or newer.");
-
+  bool is_gfx110x = dprops->major == 11 && dprops->minor == 0;
+  TORCH_CHECK(is_gfx90x || is_gfx94x || is_gfx110x,
+              "FlashAttention only supports Radeon 7000 series or AMD MI200 GPUs or newer.");
   auto q_dtype = q.dtype();
   TORCH_CHECK(q_dtype == torch::kFloat16 || q_dtype == torch::kBFloat16,
               "FlashAttention only support fp16 and bf16 data type");
   if (q_dtype == torch::kBFloat16) {
-    TORCH_CHECK(is_gfx90x || is_gfx94x,
-                "bfloat16 is only supported on AMD MI200 GPUs or newer");
+    TORCH_CHECK(is_gfx90x || is_gfx94x || is_gfx110x,
+                "bfloat16 is only supported on Radeon 7000 series or AMD MI200 GPUs or newer");
   }
   TORCH_CHECK(k.dtype() == q_dtype, "query and key must have the same dtype");
   TORCH_CHECK(v.dtype() == q_dtype, "query and value must have the same dtype");
@@ -621,15 +623,16 @@ std::vector<torch::Tensor> mha_varlen_bwd(
   auto dprops = at::cuda::getCurrentDeviceProperties();
   bool is_gfx90x = dprops->major == 9 && dprops->minor == 0;
   bool is_gfx94x = dprops->major == 9 && dprops->minor == 4;
-  TORCH_CHECK(is_gfx90x || is_gfx94x,
-              "FlashAttention only supports AMD MI200 GPUs or newer.");
+  bool is_gfx110x = dprops->major == 11 && dprops->minor == 0;
+  TORCH_CHECK(is_gfx90x || is_gfx94x || is_gfx110x,
+              "FlashAttention only supports Radeon 7000 series or AMD MI200 GPUs or newer.");
 
   auto q_dtype = q.dtype();
   TORCH_CHECK(q_dtype == torch::kFloat16 || q_dtype == torch::kBFloat16,
               "FlashAttention only support fp16 and bf16 data type");
   if (q_dtype == torch::kBFloat16) {
-    TORCH_CHECK(is_gfx90x || is_gfx94x,
-                "bfloat16 is only supported on AMD MI200 GPUs or newer");
+    TORCH_CHECK(is_gfx90x || is_gfx94x || is_gfx110x,
+                "bfloat16 is only supported on Radeon 7000 series or AMD MI200 GPUs or newer");
   }
   TORCH_CHECK(k.dtype() == q_dtype, "query and key must have the same dtype");
   TORCH_CHECK(v.dtype() == q_dtype, "query and value must have the same dtype");

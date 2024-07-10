@@ -349,7 +349,7 @@ Unit tests results(MI250, deterministic on, unit test mode on, RTN):
 ```
 
 FlashAttention currently supports:
-1. MI200 & MI300 GPUs (MI210, MI250, MI300A, MI300X).
+1. MI200 & MI300 GPUs (MI210, MI250, MI300A, MI300X) or Radeon 7000 Series GPUs (gfx1100).
 2. fp16 and bf16.
 3. Head dimensions up to 128 (e.g., 32, 40, 59, ..., 128).
 
